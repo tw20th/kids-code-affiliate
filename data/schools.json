@@ -1,0 +1,38 @@
+[
+  {
+    "id": "techacademy-jr",
+    "name": "TechAcademyジュニア",
+    "price": "月額9,800円〜",
+    "ageRange": "小学3年生〜中学生",
+    "features": ["マンツーマン", "オンライン対応", "JavaScript"],
+    "url": "https://techacademy.jp/junior",
+    "image": "/images/techacademy.png",
+    "description": "マンツーマン指導で学べるオンラインスクールです。",
+    "category": ["online", "マンツーマン"],
+    "score": 91
+  },
+  {
+    "id": "dschool",
+    "name": "D-SCHOOLオンライン",
+    "price": "月額3,980円",
+    "ageRange": "小学1年生〜",
+    "features": ["マイクラ教材", "動画学習", "低価格"],
+    "url": "https://online.d-school.co",
+    "image": "/images/dschool.png",
+    "description": "マイクラ教材で楽しく学べる人気スクールです。",
+    "category": ["online", "minecraft"],
+    "score": 88
+  },
+  {
+    "id": "litalico-wonder",
+    "name": "LITALICOワンダー",
+    "price": "月額12,000円〜",
+    "ageRange": "年長〜高校生",
+    "features": ["教室型", "個別指導", "発達支援"],
+    "url": "https://wonder.litalico.jp",
+    "image": "/images/litalico.png",
+    "description": "教室で個別指導を受けられる対面スクール。",
+    "category": ["教室型", "発達支援"],
+    "score": 93
+  }
+]

@@ -17,8 +17,12 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".", // 👈 忘れず追加
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "analyze/*": ["autopost/src/analyze/*"],
+      "blog/*": ["autopost/src/blog/*"],
+      "lib/*": ["autopost/src/lib/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
