@@ -1,57 +1,58 @@
-import { fetchBlogBySlug } from '@/lib/blogs'
-import { notFound } from 'next/navigation'
-import { Metadata } from 'next'
-import ReactMarkdown from 'react-markdown'
+"use client";
 
-type Props = {
-  params: { slug: string }
-}
+import { useEffect, useState } from "react";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { useParams } from "next/navigation";
+import { fetchUnsplashImage } from "@/lib/unsplash";
+import { app } from "@/lib/firebaseClient";
+import ReactMarkdown from "react-markdown";
 
-// ✅ SEO対応（ページごとの title, description, OGP 出力）
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const blog = await fetchBlogBySlug(params.slug)
+const db = getFirestore(app);
 
-  if (!blog) {
-    return { title: '記事が見つかりません' }
-  }
+export default function BlogDetailPage() {
+  const { slug } = useParams();
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  return {
-    title: blog.title,
-    description: blog.content.slice(0, 100) + '…',
-    openGraph: {
-      title: blog.title,
-      description: blog.content.slice(0, 100) + '…',
-      url: `https://あなたのドメイン/blog/${blog.slug}`,
-      siteName: 'キッズ・コード比較',
-      images: [
-        {
-          url: 'https://あなたのドメイン/og-image.png',
-          width: 1200,
-          height: 630,
-        },
-      ],
-      type: 'article',
-    },
-  }
-}
+  useEffect(() => {
+    const fetchData = async () => {
+      const ref = doc(db, "blogs", String(slug));
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        const data = snap.data();
+        setTitle(data.title);
+        setContent(data.content);
+        const image = await fetchUnsplashImage(data.title);
+        setImageUrl(image);
+      }
+    };
 
-// ✅ ブログ詳細ページ本体
-export default async function BlogDetailPage({ params }: Props) {
-  const blog = await fetchBlogBySlug(params.slug)
-
-  if (!blog) return notFound()
+    fetchData();
+  }, [slug]);
 
   return (
-    <main className="p-6 max-w-3xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-blue-700">{blog.title}</h1>
-      <div className="text-sm text-gray-500">
-        {blog.createdAt?.seconds
-          ? new Date(blog.createdAt.seconds * 1000).toLocaleDateString()
-          : '日付なし'}
+    <div className="p-6 max-w-3xl mx-auto">
+      <h1 className="text-3xl font-bold mb-4">{title}</h1>
+      {imageUrl && <img src={imageUrl} alt="記事画像" className="mb-6 rounded-md shadow" />}
+      <div className="prose prose-lg max-w-none dark:prose-invert">
+        <ReactMarkdown
+          components={{
+            h2: ({ node: _node, ...props }) => (
+              <h2 className="text-xl mt-6 mb-2 font-bold" {...props} />
+            ),
+            h3: ({ node: _node, ...props }) => (
+              <h3 className="text-lg mt-4 mb-1 font-semibold" {...props} />
+            ),
+            p: ({ node: _node, ...props }) => <p className="mb-2" {...props} />,
+            ul: ({ node: _node, ...props }) => <ul className="list-disc ml-6 mb-2" {...props} />,
+            ol: ({ node: _node, ...props }) => <ol className="list-decimal ml-6 mb-2" {...props} />,
+            li: ({ node: _node, ...props }) => <li className="mb-1" {...props} />,
+          }}
+        >
+          {content}
+        </ReactMarkdown>
       </div>
-      <div className="prose max-w-none">
-        <ReactMarkdown>{blog.content}</ReactMarkdown>
-      </div>
-    </main>
-  )
+    </div>
+  );
 }

@@ -1,8 +1,7 @@
 // functions/src/index.ts
-import {onRequest} from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
+import { generateBlog } from "./generateBlog";
+import { scheduledBlog } from "./scheduledBlog";
+import { analyzeArticle } from "./analyzeArticle";
+import { rewriteArticle } from "./rewriteArticle"; // ← 追加！
 
-export const helloWorld = onRequest((request, response) => {
-  logger.info("Hello logs!", {structuredData: true});
-  response.send("Hello from Firebase v4!");
-});
+export { generateBlog, scheduledBlog, analyzeArticle, rewriteArticle };

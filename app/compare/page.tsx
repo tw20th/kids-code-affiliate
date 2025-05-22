@@ -1,6 +1,6 @@
 // app/compare/page.tsx
-import schools from '@/data/schools.json'
-import ComparisonTable from '@/components/ComparisonTable'
+import schools from "@/data/schools.json";
+import ComparisonTable from "@/components/ComparisonTable";
 
 export default function ComparePage() {
   return (
@@ -11,5 +11,5 @@ export default function ComparePage() {
       </p>
       <ComparisonTable schools={schools} />
     </main>
-  )
+  );
 }

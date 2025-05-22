@@ -1,26 +1,20 @@
 // app/schools/[slug]/page.tsx
-import { notFound } from 'next/navigation'
-import schools from '@/data/schools.json'
-import Image from 'next/image'
+import { notFound } from "next/navigation";
+import schools from "@/data/schools.json";
+import Image from "next/image";
 
 type Params = {
-  slug: string
-}
+  slug: string;
+};
 
 export default function SchoolDetail({ params }: { params: Params }) {
-  const school = schools.find((s) => s.id === params.slug)
-  if (!school) return notFound()
+  const school = schools.find((s) => s.id === params.slug);
+  if (!school) return notFound();
 
   return (
     <main className="p-6 max-w-2xl mx-auto space-y-6">
       <h1 className="text-2xl font-bold">{school.name}</h1>
-      <Image
-        src={school.image}
-        alt={school.name}
-        width={600}
-        height={300}
-        className="rounded-xl"
-      />
+      <Image src={school.image} alt={school.name} width={600} height={300} className="rounded-xl" />
       <p>{school.description}</p>
       <div className="bg-gray-100 p-4 rounded-lg space-y-2">
         <p>
@@ -33,7 +27,7 @@ export default function SchoolDetail({ params }: { params: Params }) {
         </p>
         <p>
           <strong>特徴：</strong>
-          {school.features.join(' / ')}
+          {school.features.join(" / ")}
         </p>
       </div>
       <a
@@ -45,5 +39,5 @@ export default function SchoolDetail({ params }: { params: Params }) {
         無料体験・詳細をみる
       </a>
     </main>
-  )
+  );
 }

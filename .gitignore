@@ -13,8 +13,12 @@
 /.next/
 /out/
 
-# production
 /build
+
+# firebase
+firebase-debug.log
+firebase-debug.*.log
+functions/lib/
 
 # misc
 .DS_Store
@@ -36,4 +40,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-.idea/, .vscode/
+# IDE
+.idea/
+.vscode/
+
+lib/
+out/
+.next/
+node_modules/

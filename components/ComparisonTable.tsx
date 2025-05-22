@@ -1,14 +1,14 @@
 // components/ComparisonTable.tsx
 type School = {
-  name: string
-  price: string
-  ageRange: string
-  features: string[]
-}
+  name: string;
+  price: string;
+  ageRange: string;
+  features: string[];
+};
 
 type Props = {
-  schools: School[]
-}
+  schools: School[];
+};
 
 export default function ComparisonTable({ schools }: Props) {
   return (
@@ -28,11 +28,11 @@ export default function ComparisonTable({ schools }: Props) {
               <td className="px-4 py-2 font-semibold">{school.name}</td>
               <td className="px-4 py-2">{school.ageRange}</td>
               <td className="px-4 py-2">{school.price}</td>
-              <td className="px-4 py-2">{school.features.join(', ')}</td>
+              <td className="px-4 py-2">{school.features.join(", ")}</td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  )
+  );
 }

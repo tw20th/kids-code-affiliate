@@ -1,22 +1,20 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import schools from '@/data/schools.json'
-import SchoolCard from '@/components/SchoolCard'
-import ComparisonTable from '@/components/ComparisonTable'
-import FilterButtons from '@/components/FilterButtons'
-import Link from 'next/link'
+import { useState } from "react";
+import schools from "@/data/schools.json";
+import SchoolCard from "@/components/SchoolCard";
+import ComparisonTable from "@/components/ComparisonTable";
+import FilterButtons from "@/components/FilterButtons";
+import Link from "next/link";
 
 export default function HomePage() {
-  const [selected, setSelected] = useState<string | null>(null)
+  const [selected, setSelected] = useState<string | null>(null);
 
-  const categories = Array.from(
-    new Set(schools.flatMap((s) => s.category || []))
-  )
+  const categories = Array.from(new Set(schools.flatMap((s) => s.category || [])));
 
   const filteredSchools = selected
     ? schools.filter((s) => s.category?.includes(selected))
-    : schools
+    : schools;
 
   return (
     <main className="p-6 max-w-6xl mx-auto space-y-12">
@@ -33,11 +31,7 @@ export default function HomePage() {
       {/* フィルターセクション */}
       <section>
         <h2 className="text-xl font-bold mb-4">カテゴリで探す</h2>
-        <FilterButtons
-          categories={categories}
-          selected={selected}
-          onSelect={setSelected}
-        />
+        <FilterButtons categories={categories} selected={selected} onSelect={setSelected} />
       </section>
 
       {/* おすすめスクールセクション */}
@@ -55,10 +49,7 @@ export default function HomePage() {
         <h2 className="text-xl font-bold mb-4">スクール比較</h2>
         <ComparisonTable schools={filteredSchools} />
         <div className="text-right mt-2">
-          <Link
-            href="/compare"
-            className="text-sm text-blue-600 underline hover:text-blue-800"
-          >
+          <Link href="/compare" className="text-sm text-blue-600 underline hover:text-blue-800">
             もっと詳しく比較を見る →
           </Link>
         </div>
@@ -86,5 +77,5 @@ export default function HomePage() {
         </Link>
       </section>
     </main>
-  )
+  );
 }

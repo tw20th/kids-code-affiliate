@@ -1,24 +1,17 @@
 // components/SchoolCard.tsx
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
-  id: string // ← 追加
-  name: string
-  price: string
-  ageRange: string
-  features: string[]
-  image: string
-}
+  id: string; // ← 追加
+  name: string;
+  price: string;
+  ageRange: string;
+  features: string[];
+  image: string;
+};
 
-export default function SchoolCard({
-  id,
-  name,
-  price,
-  ageRange,
-  features,
-  image,
-}: Props) {
+export default function SchoolCard({ id, name, price, ageRange, features, image }: Props) {
   return (
     <div className="border rounded-2xl shadow p-4 flex flex-col gap-2 hover:shadow-md transition">
       <Image
@@ -45,5 +38,5 @@ export default function SchoolCard({
         詳細を見る
       </Link>
     </div>
-  )
+  );
 }

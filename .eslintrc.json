@@ -1,7 +1,10 @@
 {
-  "extends": [
-    "next/core-web-vitals",
-    "next/typescript",
-    "prettier" // ← 最後に
-  ]
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "globals": {
+    "alert": "readonly"
+  },
+  "extends": ["next/core-web-vitals", "next/typescript", "prettier"]
 }

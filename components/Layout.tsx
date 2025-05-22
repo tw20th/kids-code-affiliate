@@ -1,5 +1,7 @@
 // components/Layout.tsx
-import Link from 'next/link'
+import * as React from "react";
+
+import Link from "next/link";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -32,9 +34,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Footer */}
       <footer className="bg-gray-100 text-center py-6 text-sm text-gray-500">
-        © {new Date().getFullYear()} キッズ・コード比較 |
-        すべての子どもにITの力を。
+        © {new Date().getFullYear()} キッズ・コード比較 | すべての子どもにITの力を。
       </footer>
     </div>
-  )
+  );
 }

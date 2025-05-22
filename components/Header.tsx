@@ -1,13 +1,13 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import Link from 'next/link'
+import { useState } from "react";
+import Link from "next/link";
 
 export default function Header() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   // カテゴリ一覧を定義（必要に応じて増やせます）
-  const categories = ['online', 'minecraft', '教室型']
+  const categories = ["online", "minecraft", "教室型"];
 
   return (
     <header className="bg-blue-600 text-white px-6 py-4 sticky top-0 z-50 shadow">
@@ -78,5 +78,5 @@ export default function Header() {
         </div>
       )}
     </header>
-  )
+  );
 }

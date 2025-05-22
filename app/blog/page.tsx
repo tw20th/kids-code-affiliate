@@ -1,44 +1,63 @@
-// app/blog/page.tsx
-import { fetchBlogs } from '@/lib/blogs'
-import Link from 'next/link'
-import { Metadata } from 'next'
+"use client";
 
-export const metadata: Metadata = {
-  title: 'ブログ記事一覧',
-  description: '子ども向けプログラミング教育に関する記事一覧ページです。',
-}
+import { useEffect, useState } from "react";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { app } from "@/lib/firebaseClient";
+import Link from "next/link";
+import { fetchUnsplashImage } from "@/lib/unsplash";
 
-export default async function BlogListPage() {
-  const blogs = await fetchBlogs()
+const db = getFirestore(app);
 
-  if (!blogs || blogs.length === 0) {
-    return (
-      <main className="p-6 max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold text-blue-700">ブログ記事一覧</h1>
-        <p className="text-gray-500 mt-4">記事がまだありません。</p>
-      </main>
-    )
-  }
+type Blog = {
+  id: string;
+  title: string;
+  slug: string;
+  content: string;
+  imageUrl: string | null;
+};
+
+export default function BlogListPage() {
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const snapshot = await getDocs(collection(db, "blogs"));
+      const blogData = await Promise.all(
+        snapshot.docs.map(async (doc) => {
+          const data = doc.data();
+          const imageUrl = await fetchUnsplashImage(data.title);
+          return {
+            id: doc.id,
+            title: data.title,
+            slug: data.slug,
+            content: data.content,
+            imageUrl,
+          };
+        })
+      );
+      setBlogs(blogData);
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <main className="p-6 max-w-4xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-blue-700">ブログ記事一覧</h1>
-      {blogs.map((blog) => (
-        <div key={blog.slug} className="border-b py-4">
-          <h2 className="text-xl font-semibold">{blog.title}</h2>
-          <p className="text-sm text-gray-500">
-            {blog.createdAt?.seconds
-              ? new Date(blog.createdAt.seconds * 1000).toLocaleDateString()
-              : '日付なし'}
-          </p>
-          <Link
-            href={`/blog/${blog.slug}`}
-            className="text-blue-600 underline text-sm"
-          >
-            記事を読む →
-          </Link>
-        </div>
-      ))}
-    </main>
-  )
+    <div className="p-6">
+      <h1 className="text-3xl font-bold mb-6">📝 ブログ一覧</h1>
+      <div className="space-y-6">
+        {blogs.map((blog) => (
+          <div key={blog.id} className="border rounded-lg p-4 shadow">
+            {blog.imageUrl && (
+              <img src={blog.imageUrl} alt="記事画像" className="mb-4 rounded-md" />
+            )}
+            <h2 className="text-xl font-semibold mb-2">{blog.title}</h2>
+            <p className="text-gray-600 line-clamp-3">{blog.content.slice(0, 100)}...</p>
+            <Link href={`/blog/${blog.slug}`} className="text-blue-500 mt-2 inline-block">
+              続きを読む
+            </Link>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
